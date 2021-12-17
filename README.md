@@ -1,6 +1,10 @@
 # Github API access and visualisation
 
-set a github token of yours to a system environment variable. You may need to restart.
+CSU-33012 Software Engineering project of Github API access and visualisation of data
+
+## Instructions
+
+First, set a github token to a system environment variable on your computer. You may need to restart.
 
 Python packages:
 
