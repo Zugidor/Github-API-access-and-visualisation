@@ -19,7 +19,7 @@ def main():
     print("clean dict: " + json.dumps(dct, indent=2))
     # connect to mongo
     client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client.class_db
+    db = client["github"]
     # insert into collection
     db.users.insert_one(dct)
     script2.main()
