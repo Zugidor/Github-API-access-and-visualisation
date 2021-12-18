@@ -15,3 +15,5 @@ Make sure you have the following Python packages installed:
 Make sure you have docker installed.
 
 Start mongodb docker container with docker compose up.
+
+Run python scripts in the python shell, which is started with command python3 in the project directory.

@@ -9,3 +9,7 @@ def main():
     for user in users:
         pprint.pprint(user)
     print("\ndone")
+
+
+if __name__ == "__main__":
+    main()
