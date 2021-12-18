@@ -114,3 +114,15 @@ dmypy.json
 .pyre/
 
 # PyCharm
+.idea/
+
+# other
+.DS_Store
+.env.bak
+.venv.bak
+.pytest_cache
+.coverage
+.cache
+__pycache__
+*.png
+*.jpg
