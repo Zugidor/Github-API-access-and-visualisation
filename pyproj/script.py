@@ -3,6 +3,7 @@ import os
 import json
 import pymongo
 import script2
+import clear
 
 
 def main():
@@ -21,6 +22,8 @@ def main():
     db = client.class_db
     # insert into collection
     db.users.insert_one(dct)
+    script2.main()
+    clear.main()
     script2.main()
 
 
