@@ -13,21 +13,11 @@ def main():
 
 def getDetails(usr):
     dct = {
-        "login": usr.login,
-        "name": "",
-        "company": "",
-        "location": "",
-        "email": "",
-        "blog": ""
-    }
-#if usr.name is not None:
-    dct["name"] = usr.name
-#if usr.email is not None:
-    dct["email"] = usr.email
-#if usr.location is not None:
-    dct["location"] = usr.location
-#if usr.company is not None:
-    dct["company"] = usr.company
-#if usr is not None:
-    dct["blog"] = usr.blog
+            "login": usr.login,
+            "name": usr.name,
+            "company": usr.company,
+            "location": usr.location,
+            "email": usr.email,
+            "blog": usr.blog
+           }
     return dct
