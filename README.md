@@ -10,3 +10,6 @@ Make sure you have the following Python packages installed:
 
 - pip (run get-pip.py)
 - PyGithub (pip install PyGithub)
+- pymongo (pip install pymongo)
+
+Start with docker compose up.
