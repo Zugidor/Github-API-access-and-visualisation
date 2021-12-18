@@ -118,11 +118,5 @@ dmypy.json
 
 # other
 .DS_Store
-.env.bak
-.venv.bak
-.pytest_cache
-.coverage
-.cache
-__pycache__
 *.png
 *.jpg
