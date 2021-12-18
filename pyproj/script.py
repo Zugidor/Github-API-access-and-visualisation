@@ -1,7 +1,7 @@
 from github import Github
+import pymongo
 import os
 import json
-import pymongo
 import script2
 
 
