@@ -4,14 +4,14 @@ CSU-33012 Software Engineering project of Github API access and visualisation of
 
 Started with Professor Stephen Barret's Python walkthrough lectures.
 
-I aim to visualise data concerned with user locations and see how GitHub has allowed software developers to connect over vast distances. This tool will look at the location of a logged in user and the locations of all of their followers and followees. I hope to visualise the resulting data in a way that shows how physically ditant developers are closely connected on GitHub.
+I aim to visualise data concerned with user locations and see how GitHub has allowed software developers to connect over vast distances. This tool will look at the location of a logged in user and the locations of all of their followers and followees. I hope to visualise the resulting data in a way that shows how physically ditant developers are closely connected on GitHub by timezones.
 
-This is useful for softare developers to see which time zones to worry about if they're considering working with followers or followees on Github. Likewise, it can be used to see if a developer is in the same time zone as their followers or followees. Planning and working around international time zones is an important step in the software engineering process.
+This is useful for softare developers to see which timezones to worry about if they're considering working with followers or followees on Github, as it is likely that future or past collaborators are either followed or followers, or both. Likewise, it can be used to see if a developer is in the same time zone as the majority of their followers or followees. Planning and working around international time zones is an important step in the software engineering process, and this tool help provide insight on this, especially in the light of the current era of remote work becoming ever more popular.
 
-Because this tool is not intended to process a very large amount of data, I have opted to not use a database such as MongoDB. Instead, I have used JSON files.
+Because this tool is not intended to process a very large amount of data, I have opted to not use a database such as MongoDB. Instead, I have used a CSV file.
 
 API access scripts: Written in Python 3.8.10 with PyGithub.
-Data storage: JSON files.
+Data storage: CSV file.
 Visualisation: D3.js.
 
 ## Pre-Requisites

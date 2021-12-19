@@ -1,72 +1,59 @@
 from github import Github
-
-from pprint import pprint
 import os
-import json
+import csv
 
 
 def main():
-    print("This tool inspects and returns JSONs with the locations of all the followers and following users of a "
-          "given GitHub user.")
-    usrnm = input("Enter the Github login username of the account you wish to inspect: ")
+    print("This tool inspects and returns CSV with the locations of all the followers and following users of a "
+          "given GitHub user.")  # print info
+    usrnm = input("Enter the Github login username of the account you wish to inspect: ")  # get username
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
-    g = Github(token)  # create github object
-    usr = g.get_user(usrnm)  # get user object
+    g = Github(token)  # create main github object from token
+    usr = g.get_user(usrnm)  # create main user object from inputted username
 
     # get user followers and following
     f1 = usr.get_followers()
     f2 = usr.get_following()
+    # initialise CSV file
+    csvfile = open("locations.csv", "w")
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(["Location", "Count"])
+    # get locations list
+    loclist = getloclist(f1, f2, g)
+    # add locations to CSV
+    for loc in set(loclist):
+        csvwriter.writerow([loc, loclist.count(loc)])  # TODO: remove dupes and count properly
+    print("\nCSV created, Python script done")
 
-    # add followers and following to JSONs and print
+
+def getloclist(followers, following, g):
+    # get followers locations
     count = 0
-    dctlist = []
-    for f in f1:
-        dct = makeDict(f.login, g)
-        if dct is not None:
-            dctlist.append(dct)
-            print("follower with loc: ")
-            pprint(dct)
-            print("")
+    loclist = []
+    for f in followers:
+        loc = g.get_user(f.login).location
+        if loc is not None:
+            loclist.append(loc)
         count += 1
         if count == 300:
             print("limit of 300 followers reached")
             break
-    json.dump(dctlist, open("followers.json", "w"))
-
+    # get following locations
     count = 0
-    dctlist = []
-    for f in f2:
-        dct = makeDict(f.login, g)
-        if dct is not None:
-            dctlist.append(dct)
-            print("following with loc: ")
-            pprint(dct)
-            print("")
+    for f in following:
+        loc = g.get_user(f.login).location
+        if loc is not None:
+            loclist.append(loc)
         count += 1
         if count == 300:
             print("limit of 300 following reached")
             break
-    json.dump(dctlist, open("following.json", "w"))
+    # get main user location
+    loc = g.get_user().location
+    if loc is not None:
+        loclist.append(loc)
 
-    # add main user info to separate JSON and print
-    dct = makeDict(usr.login, g)
-    print("Me: ")
-    pprint(dct)
-    json.dump(dct, open("me.json", "w"))
-    print("\nJSONs created, Python script done")
-
-
-def makeDict(username, g):
-    # get user object
-    usr = g.get_user(username)
-    if usr.location is None:
-        return None
-    # create dictionary with relevant info
-    dct = {
-            "location": usr.location
-          }
-    # only return dictionary if user has a location
-    return dct
+    return loclist
 
 
 if __name__ == "__main__":
