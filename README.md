@@ -14,14 +14,18 @@ Visualisation: D3.js.
 
 ## Pre-Requisites
 
+- [Docker](https://www.docker.com/products/docker-desktop) installed.
 - [Python 3.6 or higher](https://www.python.org/downloads/) installed
 - Valid GitHub token set as an environment variable `GITHUB_TOKEN` (this can be done via [Control Panel or System Settings](https://imgur.com/a/CQjLpfk) if you are on Windows. You may need to restart your computer)
 - The following Python packages installed (see installed packages with `pip list`):
   - pip (`python3 get-pip.py`)
   - PyGithub (`pip install PyGithub`)
   - pymongo (`pip install pymongo`)
-- [Docker](https://www.docker.com/products/docker-desktop) installed.
+
+If you don't have pip, run setup.sh to install it along with PyGithub and pymongo.
 
 ## Instructions
 
-start.sh starts the mongodb docker container and runs the python script.
+Run server.sh to sart the mongoDB server in a docker container.
+In a separate shell, run start.sh to run the python script and start the http server.
+Navigate to the webpage at <http://localhost:8080/> in your browser to view the visualisation.
