@@ -24,13 +24,4 @@ Visualisation: D3.js.
 
 ## Instructions
 
-start.sh starts the mongodb docker container and the python shell.
-
-Run python scripts in the python shell.
-
-Example:
-
-```bash
-./start.sh
-import script
-script.main()```
+start.sh starts the mongodb docker container and runs the python script.

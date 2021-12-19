@@ -1,3 +1,3 @@
 docker compose up
 cd pyproj
-python3
+python3 script.py
