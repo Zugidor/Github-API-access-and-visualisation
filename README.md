@@ -9,7 +9,7 @@ I aim to visualise data concerned with user locations and see how GitHub has all
 This is useful for softare developers to see which time zones to worry about if they're considering working with followers or followees on Github. Likewise, it can be used to see if a developer is in the same time zone as their followers or followees. Planning and working around international time zones is an important step in the software engineering process.
 
 API access scripts: Written in Python 3.8.10 with PyGithub.
-Data storage: MongoDB with pymongo.
+Data storage: MongoDB with pymongo. CSV and/or JSON files.
 Visualisation: D3.js.
 
 ## Pre-Requisites
