@@ -1,6 +1,6 @@
-import pprint
 import pymongo
 
+import pprint
 
 def main():
     client = pymongo.MongoClient("mongodb://localhost:27017/")
