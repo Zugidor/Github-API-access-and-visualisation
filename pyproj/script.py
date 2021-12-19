@@ -5,11 +5,13 @@ import os
 import json
 
 
-# add logged in user's following and follower users to DB
 def main():
+    print("This tool inspects and returns JSONs with the locations of all the followers and following users of a "
+          "given GitHub user.")
+    usrnm = input("Enter the Github login username of the account you wish to inspect: ")
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
     g = Github(token)  # create github object
-    usr = g.get_user()  # get user object
+    usr = g.get_user(usrnm)  # get user object
 
     # get user followers and following
     f1 = usr.get_followers()
@@ -41,7 +43,7 @@ def main():
     print("Me: ")
     pprint(dct)
     json.dump(dct, open("me.json", "w"))
-    print("\ndone")
+    print("\nJSONs created, Python script done")
 
 
 def makeDict(username, g):
