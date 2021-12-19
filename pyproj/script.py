@@ -1,4 +1,8 @@
-from github import Github
+from github import Github  # for github api
+from geopy.geocoders import Nominatim  # Nomanatim is a geocoder for OpenStreetMap data, free api
+from timezonefinder import TimezoneFinder  # for finding timezone of a location
+from datetime import datetime  # for datetime objects necessary for converting to UTC
+from pytz import timezone  # also for converting to UTC
 import os
 import csv
 
@@ -14,19 +18,37 @@ def main():
     # get user followers and following
     f1 = usr.get_followers()
     f2 = usr.get_following()
+    # get naive locations list
+    loclist = get_loc_list(f1, f2, g)
+    # count locations and remove duplicates
+    locdict = {}
+    for loc in loclist:
+        if loc in locdict:
+            locdict[loc] += 1
+        else:
+            locdict[loc] = 1
+
     # initialise CSV file
     csvfile = open("locations.csv", "w")
     csvwriter = csv.writer(csvfile)
-    csvwriter.writerow(["Location", "Count"])
-    # get locations list
-    loclist = getloclist(f1, f2, g)
-    # add locations to CSV
-    for loc in set(loclist):
-        csvwriter.writerow([loc, loclist.count(loc)])  # TODO: remove dupes and count properly
+    csvwriter.writerow(["Location", "Region", "Timezone", "Count"])
+    # fill CSV file with data
+    geoloc = Nominatim(user_agent="github_locations")  # initialise Nominatim API
+    for loc in locdict:
+        # get latitude and longitude
+        gloc = geoloc.geocode(loc)
+        if gloc is not None:
+            # get timezones
+            reg = TimezoneFinder().timezone_at(lng=gloc.longitude, lat=gloc.latitude)  # get regional timezone
+            utc = timezone(reg).localize(datetime.now()).strftime("UTC%z")  # get UTC timezone
+            # write to CSV
+            csvwriter.writerow([loc, reg, utc, locdict[loc]])
+        else:
+            del[loc]  # remove location if it cannot be geocoded, as it is not a valid location
     print("\nCSV created, Python script done")
 
 
-def getloclist(followers, following, g):
+def get_loc_list(followers, following, g):
     # get followers locations
     count = 0
     loclist = []
