@@ -13,7 +13,7 @@ Visualisation: D3.js.
 ## Pre-Requisites
 
 - [Python 3.6 or higher](https://www.python.org/downloads/) installed
-- Valid GitHub token set to system environment variable `GITHUB_TOKEN` (this is done via control panel if you are on Windows. You may need to restart your computer)
+- Valid GitHub token set as an environment variable `GITHUB_TOKEN` (this can be done via [Control Panel or System Settings](https://imgur.com/a/CQjLpfk) if you are on Windows. You may need to restart your computer)
 - The following Python packages installed (see installed packages with `pip list`):
   - pip (`python3 get-pip.py`)
   - PyGithub (`pip install PyGithub`)
