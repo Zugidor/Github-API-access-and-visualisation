@@ -8,6 +8,7 @@ import csv
 
 
 def main():
+
     print("This tool inspects and returns CSV with the locations of all the followers and following users of a "
           "given GitHub user.")  # print info
     usrnm = input("Enter the Github login username of the account you wish to inspect: ")  # get username
@@ -32,6 +33,7 @@ def main():
     csvfile = open("locations.csv", "w")
     csvwriter = csv.writer(csvfile)
     csvwriter.writerow(["Location", "Region", "Timezone", "Count"])
+
     # fill CSV file with data
     geoloc = Nominatim(user_agent="github_locations")  # initialise Nominatim API
     for loc in locdict:
@@ -45,10 +47,12 @@ def main():
             csvwriter.writerow([loc, reg, utc, locdict[loc]])
         else:
             del[loc]  # remove location if it cannot be geocoded, as it is not a valid location
+
     print("\nCSV created, Python script done")
 
 
 def get_loc_list(followers, following, g):
+
     # get followers locations
     count = 0
     loclist = []
@@ -60,6 +64,7 @@ def get_loc_list(followers, following, g):
         if count == 300:
             print("limit of 300 followers reached")
             break
+
     # get following locations
     count = 0
     for f in following:
@@ -70,6 +75,7 @@ def get_loc_list(followers, following, g):
         if count == 300:
             print("limit of 300 following reached")
             break
+    
     # get main user location
     loc = g.get_user().location
     if loc is not None:
