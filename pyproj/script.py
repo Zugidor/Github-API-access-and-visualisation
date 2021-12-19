@@ -18,6 +18,7 @@ def main():
     f2 = usr.get_following()
 
     # add followers and following to JSONs and print
+    count = 0
     dctlist = []
     for f in f1:
         dct = makeDict(f.login, g)
@@ -26,8 +27,13 @@ def main():
             print("follower with loc: ")
             pprint(dct)
             print("")
+        count += 1
+        if count == 300:
+            print("limit of 300 followers reached")
+            break
     json.dump(dctlist, open("followers.json", "w"))
 
+    count = 0
     dctlist = []
     for f in f2:
         dct = makeDict(f.login, g)
@@ -36,6 +42,10 @@ def main():
             print("following with loc: ")
             pprint(dct)
             print("")
+        count += 1
+        if count == 300:
+            print("limit of 300 following reached")
+            break
     json.dump(dctlist, open("following.json", "w"))
 
     # add main user info to separate JSON and print
@@ -49,15 +59,13 @@ def main():
 def makeDict(username, g):
     # get user object
     usr = g.get_user(username)
+    if usr.location is None:
+        return None
     # create dictionary with relevant info
     dct = {
-            "login": usr.login,
             "location": usr.location
           }
     # only return dictionary if user has a location
-    for k, v in dct.items():
-        if k == "location" and v is None:
-            return None
     return dct
 
 
