@@ -1,5 +1,4 @@
 from github import Github
-import pymongo
 
 from pprint import pprint
 import os
@@ -11,40 +10,37 @@ def main():
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
     g = Github(token)  # create github object
     usr = g.get_user()  # get user object
-    # connect to mongo db
-    client = pymongo.MongoClient("mongodb://localhost:27017/")
-    db = client["github"]
-    # clear collections, if any, and start empty
-    db.followers.drop()
-    db.following.drop()
-    followers = db["followers"]
-    following = db["following"]
+
     # get user followers and following
     f1 = usr.get_followers()
     f2 = usr.get_following()
-    # add followers and following to DB, while avoiding duplicates
+
+    # add followers and following to JSONs and print
+    dctlist = []
     for f in f1:
         dct = makeDict(f.login, g)
         if dct is not None:
-            followers.update_one(dct, {"$set": dct}, upsert=True)
+            dctlist.append(dct)
+            print("follower with loc: ")
+            pprint(dct)
+            print("")
+    json.dump(dctlist, open("followers.json", "w"))
+
+    dctlist = []
     for f in f2:
         dct = makeDict(f.login, g)
         if dct is not None:
-            following.update_one(dct, {"$set": dct}, upsert=True)
+            dctlist.append(dct)
+            print("following with loc: ")
+            pprint(dct)
+            print("")
+    json.dump(dctlist, open("following.json", "w"))
+
+    # add main user info to separate JSON and print
     dct = makeDict(usr.login, g)
-    # print followers, following and user info
-    f1 = db.followers.find()
-    f2 = db.following.find()
-    for f in f1:
-        print("follower with loc: ")
-        pprint(f)
-        print("")
-    for f in f2:
-        print("following with loc: ")
-        pprint(f)
-        print("")
     print("Me: ")
     pprint(dct)
+    json.dump(dct, open("me.json", "w"))
     print("\ndone")
 
 
