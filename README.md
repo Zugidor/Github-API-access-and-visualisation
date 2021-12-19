@@ -18,13 +18,22 @@ Visualisation: Not yet implemented.
 
 ## Pre-Requisites
 
-- [Python 3.6 or higher](https://www.python.org/downloads/) installed
-- Valid GitHub token set as an environment variable `GITHUB_TOKEN` (this can be done via [Control Panel or System Settings](https://imgur.com/a/CQjLpfk) if you are on Windows. You may need to restart your computer)
-- The following Python packages installed (see installed packages with `pip list`):
-  - pip (`python3 get-pip.py`)
-  - PyGithub (`pip install PyGithub`)
+You need:
 
-If you don't have pip, run setup.sh to install it along with PyGithub.
+- [Python 3.6 or higher](https://www.python.org/downloads/) installed
+- A valid GitHub token set as an environment variable `GITHUB_TOKEN` (this can be done via [Control Panel or System Settings](https://imgur.com/a/CQjLpfk) if you are on Windows. You may need to restart your computer)
+- The following Python packages installed:
+  - pip
+    - PyGithub
+    - geopy
+    - timezonefinder
+    - datetime
+    - pytz
+
+Check your installed packages with `pip list`
+
+If you don't have pip, run getpip.sh
+To install the other packages, run getpacks.sh
 
 ## Instructions
 
