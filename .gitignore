@@ -122,3 +122,4 @@ dmypy.json
 *.jpg
 data/*
 *.json
+test.*
