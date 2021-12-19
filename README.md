@@ -2,9 +2,11 @@
 
 CSU-33012 Software Engineering project of Github API access and visualisation of data.
 
-Started with Stephen Barret's Python walkthrough lectures.
+Started with Professor Stephen Barret's Python walkthrough lectures.
 
 I aim to visualise data concerned with user locations and see how GitHub has allowed software developers to connect over vast distances. This tool will look at the location of a logged in user and the locations of all of their followers and followees. I hope to visualise the resulting data in a way that shows how physically ditant developers are closely connected on GitHub.
+
+This is useful for softare developers to see which time zones to worry about if they're considering working with followers or followees on Github. Likewise, it can be used to see if a developer is in the same time zone as their followers or followees. Planning and working around international time zones is an important step in the software engineering process.
 
 API access scripts: Written in Python 3.8.10 with PyGithub.
 Data storage: MongoDB with pymongo.
