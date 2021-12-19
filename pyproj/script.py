@@ -1,11 +1,13 @@
 from github import Github
 import pymongo
+
 import os
 import json
+
 import script2
 
 
-# add logged in user to and all followers to DB
+# add logged in user's following and follower users to DB
 def main():
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
     g = Github(token)  # create github object
@@ -25,10 +27,13 @@ def main():
     # add followers and following to DB, while avoiding duplicates
     for f in f1:
         dct = makeDict(f.login, g)
-        followers.update_one(dct, {"$set": dct}, upsert=True)
+        if dct is not None:
+            followers.update_one(dct, {"$set": dct}, upsert=True)
     for f in f2:
         dct = makeDict(f.login, g)
-        following.update_one(dct, {"$set": dct}, upsert=True)
+        if dct is not None:
+            following.update_one(dct, {"$set": dct}, upsert=True)
+    script2.main()
 
 
 def makeDict(username, g):
@@ -37,14 +42,12 @@ def makeDict(username, g):
     # create dictionary with relevant info
     dct = {
             "login": usr.login,
-            "name": usr.name,
             "location": usr.location
           }
-    # remove null values
+    # only return dictionary if user has a location
     for k, v in dct.items():
-        if v is None:
-            del dct[k]
-    # return dictionary
+        if k == "location" and v is None:
+            return None
     return dct
 
 
