@@ -123,3 +123,4 @@ dmypy.json
 data/*
 *.json
 test.*
+*.csv
