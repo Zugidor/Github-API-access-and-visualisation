@@ -1,4 +1,4 @@
-from github import Github  # for github api
+import github  # for github api
 from geopy.geocoders import Nominatim  # Nomanatim is a geocoder for OpenStreetMap data, free api
 from timezonefinder import TimezoneFinder  # for finding timezone of a location
 from datetime import datetime  # for datetime objects necessary for converting to UTC
@@ -11,10 +11,17 @@ def main():
 
     print("This tool inspects and returns CSV with the timezones "
           "of all the followers and following users of a given GitHub user.")  # print info
-    usrnm = input("Enter the Github login username of the account you wish to inspect: ")  # get username
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
-    g = Github(token)  # create main github object from token
-    usr = g.get_user(usrnm)  # create main user object from inputted username
+    g = github.Github(token)  # create main github object from token
+    usr = None
+    while True:
+        usrnm = input("Enter the Github login username of the account you wish to inspect: ")  # get username
+        try:
+            usr = g.get_user(usrnm)  # create main user object from inputted username
+        except github.GithubException:
+            print("Invalid username")
+        if usr is not None:
+            break
 
     print("Collecting location data...")
 
