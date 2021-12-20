@@ -15,6 +15,7 @@ def main():
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
     g = Github(token)  # create main github object from token
     usr = g.get_user(usrnm)  # create main user object from inputted username
+    print("Working...")
 
     # get user followers and following
     f1 = usr.get_followers()
@@ -75,7 +76,7 @@ def get_loc_list(followers, following, g):
         if count == 300:
             print("limit of 300 following reached")
             break
-    
+
     # get main user location
     loc = g.get_user().location
     if loc is not None:
