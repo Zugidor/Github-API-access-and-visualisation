@@ -15,7 +15,8 @@ def main():
     token = os.getenv("GITHUB_TOKEN", "no token")  # get token from environment variable
     g = Github(token)  # create main github object from token
     usr = g.get_user(usrnm)  # create main user object from inputted username
-    print("Working...")
+
+    print("Collecting location data...")
 
     # get user followers and following
     f1 = usr.get_followers()
@@ -29,6 +30,8 @@ def main():
             locdict[loc] += 1
         else:
             locdict[loc] = 1
+
+    print("Writing to CSV...")
 
     # initialise CSV file
     csvfile = open("locations.csv", "w")
@@ -49,7 +52,7 @@ def main():
         else:
             del[loc]  # remove location if it cannot be geocoded, as it is not a valid location
 
-    print("\nCSV created, Python script done")
+    print("CSV created,\nPython script done!")
 
 
 def get_loc_list(followers, following, g):
@@ -63,7 +66,7 @@ def get_loc_list(followers, following, g):
             loclist.append(loc)
         count += 1
         if count == 300:
-            print("limit of 300 followers reached")
+            print("limit of 300 followers reached!")
             break
 
     # get following locations
@@ -74,7 +77,7 @@ def get_loc_list(followers, following, g):
             loclist.append(loc)
         count += 1
         if count == 300:
-            print("limit of 300 following reached")
+            print("limit of 300 following reached!")
             break
 
     # get main user location
