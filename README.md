@@ -34,10 +34,11 @@ You need:
 
 Check your installed packages with `pip list`
 
-If you don't have pip, run getpip.sh
-To install the other packages, run getpacks.sh
+If you don't have pip, run getpip.sh or `python3 get-pip.py`
+
+To install the other packages, run getpacks.sh or `pip install -r requirements.txt`
 
 ## Instructions
 
-Run start.sh to run the python script and start the http server.
-Navigate to the webpage at <http://localhost:8080/> in your browser to view the visualisation.
+1. Run start.sh to run the python script and start the http server.
+2. Navigate to the webpage at <http://localhost:8080/> in your browser to view the visualisation.
