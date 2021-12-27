@@ -19,7 +19,7 @@ def main():
         try:
             usr = g.get_user(usrnm)  # create main user object from inputted username
         except github.GithubException:
-            print("Invalid username")
+            print("Invalid username or token")
         if usr is not None:
             break
 
@@ -31,15 +31,16 @@ def main():
     # get locations list
     loclist = get_loc_list(f1, f2, g)
 
-    print("Writing to CSV...")
+    print("Writing regional timezones to CSV...")
 
-    # initialise CSV file
-    csvfile = open("locations.csv", "w")
+    # initialise regional timezones CSV file
+    csvfile = open("regions.csv", "w")
     csvwriter = csv.writer(csvfile)
-    csvwriter.writerow(["Region", "Timezone", "Count"])
+    csvwriter.writerow(["Region", "Count"])
 
     # get regional and UTC timezones for each location, count occurrences, and write data to CSV
     regdict = {}
+    utcdict = {}
     geoloc = Nominatim(user_agent="github_locations")  # initialise Nominatim API
     for loc in loclist:
         # get latitude and longitude
@@ -51,11 +52,27 @@ def main():
                 regdict[reg] += 1
             else:
                 regdict[reg] = 1
-    for reg in regdict:
-        utc = timezone(reg).localize(datetime.now()).strftime("UTC%z")  # get UTC timezone
-        csvwriter.writerow([reg, utc, regdict[reg]])  # write to CSV
+    reglist = sorted(regdict.items(), key=lambda x: x[1], reverse=True)  # sort dictionary by count
+    for i in reglist:  # i[0] is reg, i[1] is count
+        csvwriter.writerow([i[0], i[1]])  # write to CSV
+        utc = timezone(i[0]).localize(datetime.now()).strftime("UTC%z")  # get UTC timezone
+        # build dictionary of UTC timezones and their counts
+        if utc in utcdict:
+            utcdict[utc] += 1 * i[1]
+        else:
+            utcdict[utc] = 1 * i[1]
+    utclist = sorted(utcdict.items(), key=lambda x: x[1], reverse=True)  # sort dictionary by count
 
-    print("CSV created,\nPython script done!")
+    print("Writing UTC timezones to CSV...")
+
+    # initialise UTC timezones CSV file
+    csvfile = open("utc.csv", "w")
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(["Timezone", "Count"])
+    for i in utclist:  # i[0] is utc, i[1] is count
+        csvwriter.writerow([i[0], i[1]])  # write to CSV
+
+    print("CSV files created,\nPython script done!")
 
 
 def get_loc_list(followers, following, g):
