@@ -40,5 +40,4 @@ To install the other packages, run getpacks.sh or `pip install -r requirements.t
 
 ## Instructions
 
-1. Run start.sh to run the python script and start the http server.
-2. Navigate to the webpage at <http://localhost:8080/> in your browser to view the visualisation.
+Run start.sh to run the python script, start the http server and open localhost:8000 in your default web browser.
