@@ -16,7 +16,7 @@ Even though it's public information, no GitHub usernames or locations are stored
 
 API access scripts: Written in Python 3.8.10 with PyGithub.
 Data storage: CSV files.
-Visualisation: Not yet implemented.
+Visualisation: D3.js.
 
 ## Pre-Requisites
 
