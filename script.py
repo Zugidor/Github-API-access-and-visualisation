@@ -56,6 +56,7 @@ def main():
     for i in reglist:  # i[0] is reg, i[1] is count
         csvwriter.writerow([i[0], i[1]])  # write to CSV
         utc = timezone(i[0]).localize(datetime.now()).strftime("UTC%z")  # get UTC timezone
+        utc = utc[0:6] + ":" + utc[6:]  # format UTC timezone
         # build dictionary of UTC timezones and their counts
         if utc in utcdict:
             utcdict[utc] += 1 * i[1]
