@@ -5,19 +5,67 @@
 <!-- load d3.js -->
 <script src=https://d3js.org/d3.v4.js></script>
 
+<!-- make div for title and intro -->
+<div id="ttl"></div>
+<div id="intro"></div>
+
 <!-- create divs for graphs -->
 <div id="graph1"></div>
 <div id="graph2"></div>
 
 <script>
+
     // set dimensions and margins for graphs
     const margin1 = {top: 40, right: 20, bottom: 150, left: 40},
-        width1 = 1300 - margin1.left - margin1.right,
-        height1 = 650 - margin1.top - margin1.bottom;
+        width1 = screen.width - margin1.left*2 - margin1.right*2,
+        height1 = screen.height - margin1.top*2 - margin1.bottom*2;
 
-    const margin2 = {top: 40, right: 20, bottom: 100, left: 40},
-        width2 = 1300 - margin2.left - margin2.right,
-        height2 = 650 - margin2.top - margin2.bottom;
+    const margin2 = {top: 40, right: 20, bottom: 50, left: 40},
+        width2 = screen.width - margin2.left*2 - margin2.right*2,
+        height2 = screen.height - margin2.top*2 - margin2.bottom*4;
+
+    // page title
+    const ttl = d3.select("#ttl")
+        .append("h1")
+            .text("GitHub Timezones Visualisation")
+            .style("text-align", "center")
+            .style("font-family", "sans-serif")
+            .style("font-weight", "bold")
+            .style("text-decoration", "underline")
+    // intro
+    const intro = d3.select("#intro")
+        .append("p")
+            .text("This visualisation shows the number of GitHub followers and followees in each timezone. Counts are on the y-axis and timezones are on the x-axis.")
+            .style("text-align", "left")
+            .style("font-family", "sans-serif")
+        .append("p")
+            .text("The data is taken from the GitHub API, and is grouped by timezone and plotted in two bar charts below, one for regional timezones and the second for UTC timezones.")
+            .style("text-align", "left")
+            .style("font-family", "sans-serif")
+        .append("p")
+            .text("Bars are colour-coded by number of real-time collaborative working hours lost, assuming an average 8-hour workday.")
+            .style("text-align", "left")
+            .style("font-family", "sans-serif")
+        .append("p")
+            .text("This helps visualise how many concurrent working hours are shared with users from certain timezones at a quick glance:")
+            .style("text-align", "left")
+            .style("font-family", "sans-serif")
+        .append("ul")
+        .style("text-align", "left")
+        .style("font-family", "sans-serif")
+        .style("font-weight", "bold")
+            .append("li")
+                .text("Green - Same timezone as yours, same working hours, NO potential real-time collaborative working hours lost")
+                .style("color", "Green")
+            .append("li")
+                .text("Yellow - timezone is up to 3 hours away from yours, a FEW potential real-time collaborative working hours lost")
+                .style("color", "#CAC34C")
+            .append("li")
+                .text("Orange - timezone is 3 to 7 hours away from yours, a LOT of potential real-time collaborative working hours lost")
+                .style("color", "Orange")
+            .append("li")
+                .text("Red - timezone is more than 7 hours away from yours, pretty much NO REAL-TIME COLLABORATION POSSIBLE")
+                .style("color", "Red")
 
     // append svg objects to the body of the page
     const svg1 = d3.select("#graph1")
@@ -35,6 +83,16 @@
         .append("g")
             .attr("transform",
                 "translate(" + margin2.left + "," + margin2.top + ")");
+
+    d3.csv("http://localhost:8000/user.csv", function(data) {
+        intro.append("p")
+            .text("For reference, your timezone is: " + data[1].Region + " " + data[1].UTC + ".")
+            .style("text-align", "left")
+            .style("font-family", "sans-serif")
+            .style("font-weight", "normal")
+            .style("color", "Black")
+        intro.append("br")
+    });
     
     // parse csv data for regions
     d3.csv("http://localhost:8000/regions.csv", function(data) {
@@ -51,16 +109,17 @@
                 .attr("font-size", "14px")
                 .attr("transform", "translate(-10,0)rotate(-35)")
                 .style("text-anchor", "end");
+        // graph title
         svg1.append("text")
+            .text("Count by Regional Timezones")
             .attr("x", width1 / 2)
             .attr("y", -margin1.top / 2)
             .attr("text-anchor", "middle")
             .attr("fill", "steelblue")
             .style("font-family", "sans-serif")
             .style("font-weight", "bold")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text("Graph counting Followers and Followees by Regional Timezones");
+            .style("font-size", "28px")
+            .style("text-decoration", "underline");
         
         // Y axis
         const y = d3.scaleLinear()
@@ -78,7 +137,7 @@
                 .attr("y", function(d) { return y(d.Count); })
                 .attr("width", x.bandwidth())
                 .attr("height", function(d) { return height1 - y(d.Count); })
-                .attr("fill", "steelblue");
+                .attr("fill", function(d) { return d.Colour; });
     });
     
     // parse csv data for UTC
@@ -94,16 +153,17 @@
             .selectAll("text")
                 .attr("font-weight", "bold")
                 .attr("font-size", "18px")
+        // graph title
         svg2.append("text")
+            .text("Count by UTC Timezones")
             .attr("x", width2 / 2)
             .attr("y", -margin2.top / 2)
             .attr("text-anchor", "middle")
             .attr("fill", "steelblue")
             .style("font-family", "sans-serif")
             .style("font-weight", "bold")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text("Graph counting Followers and Followees by UTC Timezones");
+            .style("font-size", "28px")
+            .style("text-decoration", "underline");
         
         // Y axis
         const y = d3.scaleLinear()
@@ -121,6 +181,6 @@
                 .attr("y", function(d) { return y(d.Count); })
                 .attr("width", x.bandwidth())
                 .attr("height", function(d) { return height2 - y(d.Count); })
-                .attr("fill", "steelblue");
+                .attr("fill", function(d) { return d.Colour; });
     });
 </script>
